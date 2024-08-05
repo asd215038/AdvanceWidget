@@ -32,6 +32,10 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
 
         Spinner op = (Spinner) findViewById(R.id.spinner);
         op.setOnItemSelectedListener(this);
+
+
+
+
     }
 
     @Override
