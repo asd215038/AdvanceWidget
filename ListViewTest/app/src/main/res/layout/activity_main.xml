@@ -10,7 +10,7 @@
     <ListView
         android:id="@+id/citylistview"
         android:layout_width="409dp"
-        android:layout_height="100dp"
+        android:layout_height="350dp"
         android:entries="@array/cities"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
