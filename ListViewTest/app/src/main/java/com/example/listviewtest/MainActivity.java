@@ -1,7 +1,11 @@
 package com.example.listviewtest;
 
+import android.content.Context;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -9,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
@@ -22,6 +27,30 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
     private ListView cityListView;
     private List<String> cities = new ArrayList<String>();
+
+    private class CityAdapter extends ArrayAdapter<City> {
+        public CityAdapter(@NonNull Context context, ArrayList<City> cities) {
+            super(context, 0, cities);
+        }
+
+        @Override
+        public View getView(int position, View converView, ViewGroup parent) {
+            // 找到哪一筆資料
+            City city = getItem(position);
+            // 設定要塞入的樣式
+            if(converView == null) {
+                converView = LayoutInflater.from(getContext()).inflate(R.layout.city_information, parent, false);
+            }
+            // 將資料塞入設計好的樣式
+            TextView tvName = (TextView) converView.findViewById(R.id.cityName);
+            TextView tvZipCode = (TextView) converView.findViewById(R.id.zipCode);
+
+            tvName.setText(city.name);
+            tvZipCode.setText(String.valueOf(city.zipCode));
+
+            return converView;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +68,21 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     }
 
     private void setCities(){
-        cities = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.cities)));
-        cities.add("Hualien");
-        cities.add("Changhua");
-        cities.add("Taitung");
-        cities.add("Penghu");
-        //new Array adapter
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, cities);
-       cityListView.setAdapter(adapter);
+//        cities = new ArrayList<>(Arrays.asList(getResources().getStringArray(R.array.cities)));
+//        cities.add("Hualien");
+//        cities.add("Changhua");
+//        cities.add("Taitung");
+//        cities.add("Penghu");
+//        //new Array adapter
+//        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, cities);
+//        cityListView.setAdapter(adapter);
+
+        ArrayList<City> cityList = new ArrayList<City>();
+        cityList.add(new City("Taipei", 100));
+        cityList.add(new City("New Taipei City", 101));
+        cityList.add(new City("Taichung", 407));
+        CityAdapter adapter = new CityAdapter(this, cityList);
+        cityListView.setAdapter(adapter);
     }
 
     @Override
